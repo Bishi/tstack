@@ -58,14 +58,27 @@ one appears.
 7. **Report** in your final message: the PR link, the merge commit, your proof,
    and each decision you made for the user.
 
+## Waiting for delivery gates
+
 Delegated reviews resume through their completion notifications; follow
 `review-loop` while a reviewer runs. For pending required CI or GitHub approval,
 use the host's PR notification mechanism when available: in T3 Code, finish
 any branch updates, call `watch_pull_request`, then end the turn. This waits
-for delivery gates, not review bots. Do not write polling or sleep loops. If
-no notification mechanism is available, report the pending gate instead of
-claiming completion. In T3 Code, call `unwatch_pull_request` before a handoff
-or a question.
+for delivery gates, not review bots. In T3 Code, call `unwatch_pull_request`
+before a handoff or a question.
+
+Outside T3 Code, when host notifications are unavailable, wait for required
+CI with GitHub CLI's built-in
+`gh pr checks <PR-URL> --required --watch --fail-fast`. Run it through the
+host's supported long-running command mechanism and resume when it exits.
+This waits only for required checks, without requiring an AI review bot.
+Inspect a nonzero exit before deciding whether it is a check failure or a
+tool/access error. After repairs or branch updates, verify the new head and
+wait for its checks again. Re-read the live PR head, required checks, approvals,
+and mergeability after waiting; waiter success alone is not the merge gate.
+Do not write your own polling or sleep loops. If the host cannot sustain the
+wait, or a required approval has no notification path, report that specific
+blocker rather than claiming completion.
 
 ## Proof
 

@@ -38,9 +38,15 @@ When the requested finish includes a PR, use `file-pr` to file or update it,
 then run `review-loop` to review and repair the current PR head. Check the
 repository's required CI and approval gates before declaring it ready;
 delegated review does not replace branch protection. If required gates are
-pending and the requested delivery depends on them, use host notifications
-when available; do not wait for GitHub review bots. Use `leaving-pr-comments`
-for authorized replies. Merge or close either PR only when authorized.
+pending and the requested delivery depends on them, follow only the
+[delivery waiting procedure](../full-send/SKILL.md#waiting-for-delivery-gates);
+this does not grant full-send's merge or testing permissions. Do not wait for
+GitHub review bots. After CI repairs, conflict resolution, or any branch
+update, verify the changes and rerun `review-loop` if the clean verdict no
+longer covers the current head. Before declaring readiness, re-read the live
+PR and require its head to match the clean delegated verdict as well as
+satisfying the repository's delivery gates. Use `leaving-pr-comments` for
+authorized replies. Merge or close either PR only when authorized.
 
 Report what you inherited, what you changed, how you verified it, how credit
 was preserved, and any remaining decision.

@@ -21,7 +21,10 @@ Preserve these differences when incorporating upstream changes:
 - No workflow requires a GitHub review bot to run. Required CI checks and
   GitHub approvals still apply; delegated review never bypasses protection.
   Host PR notifications may wait for these delivery gates, separately from
-  delegated reviewer completion notifications.
+  delegated reviewer completion notifications. Outside T3 Code, hosts without
+  PR notifications use GitHub CLI's built-in required-checks wait; no custom
+  bot watcher is needed. Final readiness must cover the current PR head,
+  including repairs made after the first review.
 - Each repository supplies its own scope, review criteria, verification,
   repair rules, and delivery conventions. These skills carry no Factory
   Survival dependency or project-specific Unity, ticket, or test requirements.
@@ -55,6 +58,7 @@ Some skills call others. Install the ones they need too:
 - `full-send` uses `file-pr` and `review-loop`.
 - `full-stop` uses `full-send`.
 - `takeover` uses `modernize`, `file-pr`, `review-loop`, and `leaving-pr-comments`.
+  It also shares `full-send`'s delivery waiting procedure, without its permissions.
 - `file-pr`, `review-loop`, and `modernize` use `leaving-pr-comments` when posting authorized comments.
 
 ## Install
