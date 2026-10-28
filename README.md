@@ -39,6 +39,8 @@ change or are removed; commit messages alone are not sufficient.
 - `council` accepts two different providers instead of requiring three, so it
   works with a two-provider setup. It still defaults to three when available
   and reports unavailable named members rather than silently replacing them.
+- This README adds PowerShell installation and update commands so Windows
+  users can install without a Bash shell.
 
 Keep `origin` pointing to this fork and `upstream` to `t3dotgg/tstack`. Fetch
 upstream and integrate changes on a separate branch. Inspect changes to skill
@@ -71,11 +73,37 @@ Some skills call others. Install the ones they need too:
 
 ## Install
 
+macOS/Linux (Bash):
+
 ```bash
 git clone https://github.com/Bishi/tstack
 cp -R tstack/skills/* ~/.claude/skills/   # Claude Code
 cp -R tstack/skills/* ~/.codex/skills/    # Codex
 ```
+
+Windows (PowerShell), using the shared user skills folder loaded by this
+T3 Codex setup:
+
+```powershell
+git clone https://github.com/Bishi/tstack "$env:USERPROFILE\tstack"
+if ($LASTEXITCODE -ne 0) { throw 'Clone failed.' }
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.agents\skills" | Out-Null
+Copy-Item "$env:USERPROFILE\tstack\skills\*" "$env:USERPROFILE\.agents\skills" -Recurse -Force
+```
+
+To update that PowerShell installation:
+
+```powershell
+git -C "$env:USERPROFILE\tstack" pull --ff-only
+if ($LASTEXITCODE -ne 0) { throw 'Update failed; installed skills were not changed.' }
+Copy-Item "$env:USERPROFILE\tstack\skills\*" "$env:USERPROFILE\.agents\skills" -Recurse -Force
+```
+
+If your clone is elsewhere, replace `$env:USERPROFILE\tstack` with its path.
+For Claude Code, use `$env:USERPROFILE\.claude\skills` as the destination in
+both the directory creation and copy commands. Copying overwrites matching
+skill files but preserves unrelated skills; it does not remove skills deleted
+from the repository. Updated skills are available on the next turn.
 
 If updating an installation of upstream tstack, remove its installed
 `babysit-pr` folder too; copying the fork's skills does not delete old skills.
