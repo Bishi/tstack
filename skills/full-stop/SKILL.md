@@ -16,6 +16,9 @@ methods Proof needs, even when a project file says to ask first, for
 example before computer use. Use those methods directly. Its merge
 permission does not apply. The overrides below take precedence.
 
+Full-send's Unity Play Mode exception also applies: keep Play Mode verification
+simple and report complex behavior that remains unverified.
+
 ## No merging
 
 You may commit, push, rebase, fix conflicts, and use `--force-with-lease` on

@@ -1,5 +1,7 @@
 # tstack — agent-driven review fork
 
+**Instruction sync:** Keep the shared instructions in `AGENTS.md` and `CLAUDE.md` identical. When changing either file, apply the same shared changes to the other file in the same task. Only the final `# Claude Instructions` section in `CLAUDE.md` is exempt; keep Claude-specific rules there and do not copy that section into `AGENTS.md`.
+
 Reusable agent skills for Claude Code and Codex, forked from
 [t3dotgg/tstack](https://github.com/t3dotgg/tstack). Some use
 [T3 Code](https://github.com/pingdotgg/t3code) features when available and native
@@ -33,14 +35,21 @@ change or are removed; commit messages alone are not sufficient.
 - Each repository supplies its own scope, review criteria, verification,
   repair rules, and delivery conventions. These skills carry no Factory
   Survival dependency or project-specific Unity, ticket, or test requirements.
+- `full-send`, `full-stop`, and `takeover` limit Unity Play Mode verification
+  to simple observations and interactions, rather than requiring complex
+  gameplay to satisfy runtime proof. Use other suitable checks and report
+  remaining gaps so verification does not turn into lengthy Play Mode actions.
 - Keep the original workflow permissions: `full-send` permits merging after
   its gate passes; `full-stop` and `review-loop` do not. A takeover does not
   grant permission to merge or close a PR.
 - `council` accepts two different providers instead of requiring three, so it
   works with a two-provider setup. It still defaults to three when available
   and reports unavailable named members rather than silently replacing them.
-- This README adds PowerShell installation and update commands so Windows
+- `AGENTS.md` and `CLAUDE.md` include PowerShell installation and update commands so Windows
   users can install without a Bash shell.
+
+- `AGENTS.md` and `CLAUDE.md` contain the former README guidance and the shared
+  instruction sync rule so both agents load it directly; `README.md` is removed.
 
 Keep `origin` pointing to this fork and `upstream` to `t3dotgg/tstack`. Fetch
 upstream and integrate changes on a separate branch. Inspect changes to skill

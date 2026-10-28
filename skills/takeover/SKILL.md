@@ -34,6 +34,12 @@ Independently verify the original failure and realistic workflows, following
 repository guidance and permissions. Green mocked tests do not prove the user
 experience works. State what remains unverified.
 
+For Unity Play Mode, limit runtime verification to simple observations and
+interactions, such as entering Play Mode, checking the initial scene, or clicking
+one control. Do not attempt complex gameplay or multi-step interactions just to
+satisfy this rule. Use other suitable checks for those behaviors and report what
+remains unverified.
+
 When the requested finish includes a PR, use `file-pr` to file or update it,
 then run `review-loop` to review and repair the current PR head. Check the
 repository's required CI and approval gates before declaring it ready;
