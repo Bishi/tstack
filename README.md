@@ -33,6 +33,10 @@ change or are removed; commit messages alone are not sufficient.
 - Each repository supplies its own scope, review criteria, verification,
   repair rules, and delivery conventions. These skills carry no Factory
   Survival dependency or project-specific Unity, ticket, or test requirements.
+- `full-send`, `full-stop`, and `takeover` limit Unity Play Mode verification
+  to simple observations and interactions, rather than requiring complex
+  gameplay to satisfy runtime proof. Use other suitable checks and report
+  remaining gaps so verification does not turn into lengthy Play Mode actions.
 - Keep the original workflow permissions: `full-send` permits merging after
   its gate passes; `full-stop` and `review-loop` do not. A takeover does not
   grant permission to merge or close a PR.

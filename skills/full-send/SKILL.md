@@ -94,6 +94,12 @@ reproduction, a screenshot. Use the most direct proof the change allows:
   tests do not prove that the user experience works. Attach screenshots to the
   PR when they help and you have a way to upload them.
 
+For Unity Play Mode, limit runtime verification to simple observations and
+interactions, such as entering Play Mode, checking the initial scene, or clicking
+one control. Do not attempt complex gameplay or multi-step interactions just to
+satisfy this rule. Use other suitable checks for those behaviors and report what
+remains unverified; that limitation alone does not require asking the user.
+
 When you cannot find a way to prove a change, you do not have full confidence.
 Ask the user.
 
