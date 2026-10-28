@@ -36,6 +36,9 @@ change or are removed; commit messages alone are not sufficient.
 - Keep the original workflow permissions: `full-send` permits merging after
   its gate passes; `full-stop` and `review-loop` do not. A takeover does not
   grant permission to merge or close a PR.
+- `council` accepts two different providers instead of requiring three, so it
+  works with a two-provider setup. It still defaults to three when available
+  and reports unavailable named members rather than silently replacing them.
 
 Keep `origin` pointing to this fork and `upstream` to `t3dotgg/tstack`. Fetch
 upstream and integrate changes on a separate branch. Inspect changes to skill
@@ -50,7 +53,7 @@ Retain upstream attribution and the MIT license.
 |---|---|---|
 | `full-send` | "full send" | Proves a change, files its PR, runs delegated review and repairs, checks delivery gates, and merges. |
 | `full-stop` | "full stop" | Same as `full-send`, but stops when the PR is ready for you to merge. |
-| `council` | "council" | Gets review from three models from different providers, and loops until they agree. |
+| `council` | "council" | Gets review from models across at least two providers, and loops until they agree. |
 | `sol-loop` | "sol loop" | Reviews a change with GPT Sol in a loop until both agents agree. |
 | `file-pr` | "file a PR" | Files a short PR that leads with the problem, not an inventory of changes. |
 | `takeover` | "take over" | Finishes someone else's PR, branch, or agent thread, and keeps their credit. |
@@ -84,7 +87,7 @@ If updating an installation of upstream tstack, remove its installed
   T3 Code uses `delegate_task`; elsewhere the harness must support the selected
   reviewer models. `review-loop` follows user/repository model preferences and
   otherwise uses the latest available GPT Sol at medium effort. `council`
-  requires models from three providers.
+  requires models from at least two different providers.
 
 ## Make them yours
 

@@ -10,16 +10,19 @@ relevant checks. Give council the updated implementation; do not defer known
 fixes until reviews return. If the user wants to discard the implementation
 and explore new ideas, skip fixes to code being replaced.
 
-Bring in three delegates to help with the user's request, usually for review
-or feedback. Use one strong model from each of three different providers, at
-high reasoning effort. If the user's instructions name council members, use
-those. Otherwise pick the latest flagship model from each provider, for
+Bring in delegates to help with the user's request, usually for review or
+feedback. Use one strong model per provider, at high reasoning effort, with
+a minimum of two different providers. Default to three providers when
+available, or two when only two are available. Multiple accounts for the same
+provider do not count as different providers. If the user's instructions name
+council members, use those while retaining the two-provider minimum.
+Otherwise pick the latest flagship model from each selected provider, for
 example Claude Opus, GPT Sol, and Gemini Pro.
 
 In T3 Code, use `orchestrator_capabilities` to resolve the models, then
 `delegate_task` to start one delegate per model in parallel. Elsewhere, use
-the harness's subagent tools. If you cannot reach three providers, or a named
-member is unavailable, report it instead of substituting.
+the harness's subagent tools. If fewer than two different providers are
+available, or a named member is unavailable, report it instead of substituting.
 
 Give each delegate the request and relevant context. For review or feedback,
 keep their work read-only. Collect their responses and summarize the useful
@@ -45,6 +48,7 @@ Rounds: 2
 ```
 
 If a delegate gives no score, write `no score`. Do not invent one.
+Include only the delegates that actually participated.
 If the PR is open, edit the description. Do not post a comment for this.
 If there is no PR, put the same results in the final reply only.
 
