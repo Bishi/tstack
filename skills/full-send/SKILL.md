@@ -46,21 +46,26 @@ one appears.
    smallest change that works. Fix the case that happened, not every case
    that could. If you are on the default branch, create a branch first.
 2. **Prove it.** Get proof for every change you made. See "Proof".
-3. **Get feedback.** Use the `sol-loop` skill to verify changes.
-4. **File the PR** with the `file-pr` skill. Rebase onto the latest default
+3. **File the PR** with the `file-pr` skill. Rebase onto the latest default
    branch first. Add one short line to the description that says how you proved
    the change.
-5. **Babysit the PR** with the `babysit-pr` skill. Fix real findings and CI
-   failures. Get proof for each fix before you push it.
+4. **Review the PR** with the `review-loop` skill. Claim-check findings,
+   repair confirmed issues, verify, commit, push, and delegate fresh review
+   rounds until no findings remain on the current head.
+5. **Check delivery gates.** Fix required CI failures and verify each fix. If
+   changes affect the reviewed diff, return to `review-loop`.
 6. **Merge** when the merge gate passes.
 7. **Report** in your final message: the PR link, the merge commit, your proof,
    and each decision you made for the user.
 
-Stay active from step 1 to step 7. If you end your turn while checks or bots are
-pending, the work stops, because nobody will prompt you again. Wait with the
-watcher from `babysit-pr`, so something wakes you when the PR changes. In T3
-Code that is `watch_pull_request`. If you stop before the merge, call
-`unwatch_pull_request` first.
+Delegated reviews resume through their completion notifications; follow
+`review-loop` while a reviewer runs. For pending required CI or GitHub approval,
+use the host's PR notification mechanism when available: in T3 Code, finish
+any branch updates, call `watch_pull_request`, then end the turn. This waits
+for delivery gates, not review bots. Do not write polling or sleep loops. If
+no notification mechanism is available, report the pending gate instead of
+claiming completion. In T3 Code, call `unwatch_pull_request` before a handoff
+or a question.
 
 ## Proof
 
@@ -85,17 +90,20 @@ Full confidence means all of these are true on the latest commit:
 
 - Your proof covers every change in the diff.
 - Required checks are green.
-- Review bots have finished, and each finding is fixed or dismissed with a
-  written reason.
-- No human review still requests changes.
+- The delegated `review-loop` has a clean verdict covering the current head;
+  every prior finding is accounted for. GitHub review bots are not required.
+- Required GitHub approvals are satisfied and no human review still requests
+  changes.
 - The branch is up to date with the default branch, and GitHub reports it as
   mergeable.
 
 Merge with the method the repo uses. Check the allowed methods and recent merged
 PRs. If the repo uses a merge queue or auto-merge, stay until GitHub reports the
 PR as merged. Merge through branch protection as configured. Never use `--admin`
-or other bypasses. You can ignore automated reviews that request "needs human
-review" if you have high confidence in your changes.
+or other bypasses. Delegated approval does not replace a required GitHub
+approval or check. Immediately before merging, fetch the target branch and
+recheck the live head, base, checks, approvals, and mergeability. If updating
+the branch changes the reviewed diff, verify and re-review it first.
 
 ## Asking the user
 

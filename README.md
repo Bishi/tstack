@@ -1,46 +1,81 @@
-# tstack
+# tstack — agent-driven review fork
 
-The agent skills I use every day, cleaned up so anyone can use them. They work
-in Claude Code and Codex. Some use [T3 Code](https://github.com/pingdotgg/t3code)
-features when they are available and fall back to native tools when they are
-not.
+Reusable agent skills for Claude Code and Codex, forked from
+[t3dotgg/tstack](https://github.com/t3dotgg/tstack). Some use
+[T3 Code](https://github.com/pingdotgg/t3code) features when available and native
+agent tools elsewhere, subject to the required model being available.
+
+## Fork differences and upstream updates
+
+This fork uses independent delegated PR review instead of GitHub review-bot
+babysitting. It works in repositories with no GitHub AI review integration.
+Preserve these differences when incorporating upstream changes:
+
+- `review-loop` delegates review, claim-checks findings, repairs confirmed
+  issues, verifies and pushes repairs, then starts a fresh reviewer task each
+  round until the current head has no remaining findings. It reports unresolved
+  disputes or blockers without claiming approval and never merges itself.
+- `full-send`, `full-stop`, and `takeover` use that loop after PR creation or
+  update. The upstream `babysit-pr` skill and its `pr-wait` script are removed.
+  `sol-loop` remains an optional standalone local review workflow.
+- No workflow requires a GitHub review bot to run. Required CI checks and
+  GitHub approvals still apply; delegated review never bypasses protection.
+  Host PR notifications may wait for these delivery gates, separately from
+  delegated reviewer completion notifications.
+- Each repository supplies its own scope, review criteria, verification,
+  repair rules, and delivery conventions. These skills carry no Factory
+  Survival dependency or project-specific Unity, ticket, or test requirements.
+- Keep the original workflow permissions: `full-send` permits merging after
+  its gate passes; `full-stop` and `review-loop` do not. A takeover does not
+  grant permission to merge or close a PR.
+
+Keep `origin` pointing to this fork and `upstream` to `t3dotgg/tstack`. Fetch
+upstream and integrate changes on a separate branch. Inspect changes to skill
+dependencies, merge/readiness gates, model selection, and waiting behavior;
+do not restore the bot requirement or overwrite this section wholesale.
+Check all skill references and frontmatter after resolving the update.
+Retain upstream attribution and the MIT license.
 
 ## Skills
 
 | Skill | Say | What it does |
 |---|---|---|
-| `full-send` | "full send" | Takes a change to a merged PR with nobody watching: proves it, reviews it, files it, babysits it, merges it. |
+| `full-send` | "full send" | Proves a change, files its PR, runs delegated review and repairs, checks delivery gates, and merges. |
 | `full-stop` | "full stop" | Same as `full-send`, but stops when the PR is ready for you to merge. |
 | `council` | "council" | Gets review from three models from different providers, and loops until they agree. |
 | `sol-loop` | "sol loop" | Reviews a change with GPT Sol in a loop until both agents agree. |
 | `file-pr` | "file a PR" | Files a short PR that leads with the problem, not an inventory of changes. |
 | `takeover` | "take over" | Finishes someone else's PR, branch, or agent thread, and keeps their credit. |
-| `babysit-pr` | "babysit" | Watches a PR through CI and review bots, and fixes the real findings. |
+| `review-loop` | "review loop" | Delegates independent PR review and repeats verified repairs and fresh reviews until no findings remain. |
 | `modernize` | "modernize" | Rebases an old PR and decides if it should still exist. |
 | `leaving-pr-comments` | (automatic) | Formats comments that an agent posts on your behalf. |
 
 Some skills call others. Install the ones they need too:
 
-- `full-send` uses `sol-loop`, `file-pr`, and `babysit-pr`.
+- `full-send` uses `file-pr` and `review-loop`.
 - `full-stop` uses `full-send`.
-- `takeover` uses `modernize`, `file-pr`, `babysit-pr`, and `leaving-pr-comments`.
-- `file-pr`, `babysit-pr`, and `modernize` use `leaving-pr-comments`.
+- `takeover` uses `modernize`, `file-pr`, `review-loop`, and `leaving-pr-comments`.
+- `file-pr`, `review-loop`, and `modernize` use `leaving-pr-comments` when posting authorized comments.
 
 ## Install
 
 ```bash
-git clone https://github.com/t3dotgg/tstack
+git clone https://github.com/Bishi/tstack
 cp -R tstack/skills/* ~/.claude/skills/   # Claude Code
 cp -R tstack/skills/* ~/.codex/skills/    # Codex
 ```
 
+If updating an installation of upstream tstack, remove its installed
+`babysit-pr` folder too; copying the fork's skills does not delete old skills.
+
 ## Requirements
 
 - An authenticated [GitHub CLI](https://cli.github.com) (`gh`).
-- `python3` for `babysit-pr`'s `pr-wait` script.
-- `council` and `sol-loop` need subagents on other providers' models. T3 Code
-  does this with `delegate_task`. Otherwise you need a harness that can run
-  those models.
+- Independent agent delegation for `review-loop`, `council`, and `sol-loop`.
+  T3 Code uses `delegate_task`; elsewhere the harness must support the selected
+  reviewer models. `review-loop` follows user/repository model preferences and
+  otherwise uses the latest available GPT Sol at medium effort. `council`
+  requires models from three providers.
 
 ## Make them yours
 
