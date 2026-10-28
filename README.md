@@ -11,6 +11,11 @@ This fork uses independent delegated PR review instead of GitHub review-bot
 babysitting. It works in repositories with no GitHub AI review integration.
 Preserve these differences when incorporating upstream changes:
 
+For every fork-specific change, including small skill edits, update this
+section in the same commit with a short note naming the affected skill or file,
+what differs from upstream, and why. Keep the notes current as differences
+change or are removed; commit messages alone are not sufficient.
+
 - `review-loop` delegates review, claim-checks findings, repairs confirmed
   issues, verifies and pushes repairs, then starts a fresh reviewer task each
   round until the current head has no remaining findings. It reports unresolved
