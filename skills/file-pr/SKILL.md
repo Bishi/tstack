@@ -44,7 +44,7 @@ secrets and private details.
 Open a ready-for-review PR unless the user requests a draft. If `gh pr create` fails
 because the GraphQL rate limit is used up, open it through REST with
 `gh api repos/<owner>/<repo>/pulls -f title=... -f head=... -f base=... -F body=@<file>`. If the user also asked
-for a review loop, continue with the `review-loop` skill.
+for a Sol review, continue with the `sol-loop` skill.
 
 Do not post a follow-up PR comment unless it serves the user's request. When a
 comment is needed, use the `leaving-pr-comments` skill.
