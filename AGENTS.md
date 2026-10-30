@@ -23,7 +23,9 @@ change or are removed; commit messages alone are not sufficient.
   rebase, or conflict resolution changes behavior. The upstream `babysit-pr`
   skill and its `pr-wait` script are removed because the user's repositories
   have no review bots; an earlier fork-only `review-loop` was retired in favor
-  of `sol-loop`'s bounded rounds and smallest-change bias.
+  of `sol-loop`'s bounded rounds and smallest-change bias. `file-pr` opens a
+  ready-for-review PR rather than one meant to trigger bots, and hands off to
+  `sol-loop` instead of `babysit-pr` when a review was requested.
 - No workflow requires a GitHub review bot to run. Required CI checks and
   GitHub approvals still apply; delegated review never bypasses protection.
   Host PR notifications may wait for these delivery gates, separately from
