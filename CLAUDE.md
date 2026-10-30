@@ -46,7 +46,8 @@ change or are removed; commit messages alone are not sufficient.
   works with a two-provider setup. It still defaults to three when available
   and reports unavailable named members rather than silently replacing them.
 - `AGENTS.md` and `CLAUDE.md` include PowerShell installation and update commands so Windows
-  users can install without a Bash shell.
+  users can install without a Bash shell. Both files explicitly require installs
+  and updates to cover Codex and Claude Code so neither installation is missed.
 
 - `AGENTS.md` and `CLAUDE.md` contain the former README guidance and the shared
   instruction sync rule so both agents load it directly; `README.md` is removed.
@@ -81,6 +82,9 @@ Some skills call others. Install the ones they need too:
 - `file-pr`, `review-loop`, and `modernize` use `leaving-pr-comments` when posting authorized comments.
 
 ## Install
+
+"Install" and "update" mean both Codex and Claude Code unless the user explicitly
+limits the request to one. Run the commands for both destinations.
 
 macOS/Linux (Bash):
 
