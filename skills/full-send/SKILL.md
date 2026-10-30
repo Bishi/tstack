@@ -46,22 +46,21 @@ one appears.
    smallest change that works. Fix the case that happened, not every case
    that could. If you are on the default branch, create a branch first.
 2. **Prove it.** Get proof for every change you made. See "Proof".
-3. **File the PR** with the `file-pr` skill. Rebase onto the latest default
+3. **Get feedback.** Use the `sol-loop` skill to verify changes.
+4. **File the PR** with the `file-pr` skill. Rebase onto the latest default
    branch first. Add one short line to the description that says how you proved
    the change.
-4. **Review the PR** with the `review-loop` skill. Claim-check findings,
-   repair confirmed issues, verify, commit, push, and delegate fresh review
-   rounds until no findings remain on the current head.
 5. **Check delivery gates.** Fix required CI failures and verify each fix. If
-   changes affect the reviewed diff, return to `review-loop`.
+   a fix, rebase, or conflict resolution changes behavior after Sol agreed, run
+   `sol-loop` again on the PR before merging.
 6. **Merge** when the merge gate passes.
 7. **Report** in your final message: the PR link, the merge commit, your proof,
    and each decision you made for the user.
 
 ## Waiting for delivery gates
 
-Delegated reviews resume through their completion notifications; follow
-`review-loop` while a reviewer runs. For pending required CI or GitHub approval,
+Sol reviews resume through their completion notifications; follow `sol-loop`
+while a reviewer runs. For pending required CI or GitHub approval,
 use the host's PR notification mechanism when available: in T3 Code, finish
 any branch updates, call `watch_pull_request`, then end the turn. This waits
 for delivery gates, not review bots. In T3 Code, call `unwatch_pull_request`
@@ -109,8 +108,8 @@ Full confidence means all of these are true on the latest commit:
 
 - Your proof covers every change in the diff.
 - Required checks are green.
-- The delegated `review-loop` has a clean verdict covering the current head;
-  every prior finding is accounted for. GitHub review bots are not required.
+- `sol-loop` agreed on the current behavior diff, with no blocker or should
+  open. Its budget ending is not agreement. GitHub review bots are not required.
 - Required GitHub approvals are satisfied and no human review still requests
   changes.
 - The branch is up to date with the default branch, and GitHub reports it as
